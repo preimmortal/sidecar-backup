@@ -16,6 +16,7 @@ type Config struct {
 }
 
 func readConfig(filename string) error {
+	log.Info("Reading Configuration")
 	var configFile []byte
 	var err error
 	if configFile, err = ioutil.ReadFile(filename); err != nil{
@@ -28,6 +29,6 @@ func readConfig(filename string) error {
 		return err
 	}
 
-	log.Debug(config)
+	log.Debug("  ", config)
 	return nil
 }
