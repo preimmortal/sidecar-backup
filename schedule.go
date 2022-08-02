@@ -10,7 +10,6 @@ import (
 var jobChan = make(chan Job, 100)
 var resultChan = make(chan error, 100)
 
-
 func startWorkers() {
 	log.Info("Starting Workers")
 	for w := 0; w < *workers; w++ {
@@ -32,7 +31,6 @@ func executeJobs(v interface{}) error {
 			return fmt.Errorf("invalid job type")
 		}
 
-
 		switch reflect.TypeOf(refJob) {
 		case reflect.TypeOf((*Sql)(nil)).Elem():
 			log.Info("Type SQL")
@@ -49,9 +47,21 @@ func executeJobs(v interface{}) error {
 
 func executeSqlJobs() {
 	for _, job := range config.Sql {
-		jobChan <- &job
+		jobChan <- job
 	}
 	for range config.Sql {
+		err := <- resultChan
+		if err != nil {
+			log.Error(err)
+		}
+	}
+}
+
+func executeRsyncJobs() {
+	for _, job := range config.Rsync {
+		jobChan <- job
+	}
+	for range config.Rsync {
 		err := <- resultChan
 		if err != nil {
 			log.Error(err)
@@ -62,4 +72,6 @@ func executeSqlJobs() {
 func scheduleJobs() {
 	startWorkers()
 	executeSqlJobs()
+	executeRsyncJobs()
+	//executeJobs(config.Sql)
 }

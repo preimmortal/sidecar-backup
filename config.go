@@ -4,7 +4,7 @@ import (
 	"io/ioutil"
 
 	log "github.com/sirupsen/logrus"
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 var config Config

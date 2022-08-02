@@ -18,18 +18,18 @@ type Rsync struct {
 	Error error
 }
 
-func (job *Rsync) enabled() bool {
+func (job Rsync) enabled() bool {
 	return job.Enabled
 }
 
-func (job *Rsync) info() (data []byte, err error) {
+func (job Rsync) info() (data []byte, err error) {
 	if data, err = json.Marshal(job); err != nil {
 		return nil, err
 	} 
 	return data, nil
 }
 
-func (j *Rsync) execute() error {
+func (j Rsync) execute() error {
 	log.Info("    Executing Rsync Job: ", j.Name)
 	return nil
 }
