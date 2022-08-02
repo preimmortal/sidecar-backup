@@ -26,52 +26,24 @@ func executeJobs(v interface{}) error {
 	}
 
 	for i := 0; i < refJobs.Len(); i++ {
+		var job Job
+		var ok bool
+
 		refJob := refJobs.Index(i)
 		if refJob.Kind() != reflect.Struct {
 			return fmt.Errorf("invalid job type")
 		}
 
-		switch reflect.TypeOf(refJob) {
-		case reflect.TypeOf((*Sql)(nil)).Elem():
-			log.Info("Type SQL")
-		case reflect.TypeOf((*Rsync)(nil)).Elem():
-			log.Info("Type Rsync")
-		default:
-			log.Info("Unknown")
+		if job, ok = refJob.Interface().(Job); !ok {
+			return fmt.Errorf("unable to interface job struct")
 		}
-		job := refJob.Interface().(Sql)
 		log.Info(job)
 	}
 	return nil
 }
 
-func executeSqlJobs() {
-	for _, job := range config.Sql {
-		jobChan <- job
-	}
-	for range config.Sql {
-		err := <- resultChan
-		if err != nil {
-			log.Error(err)
-		}
-	}
-}
-
-func executeRsyncJobs() {
-	for _, job := range config.Rsync {
-		jobChan <- job
-	}
-	for range config.Rsync {
-		err := <- resultChan
-		if err != nil {
-			log.Error(err)
-		}
-	}
-}
-
 func scheduleJobs() {
 	startWorkers()
-	executeSqlJobs()
-	executeRsyncJobs()
-	//executeJobs(config.Sql)
+	executeJobs(config.Sql)
+	executeJobs(config.Rsync)
 }
