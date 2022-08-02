@@ -1,15 +1,22 @@
+enabled: true
+
 sql:
   - name: sqlexample1
     source: sqlexample1.db
     dest: sqlexample1.db.bak
     options: ''
-    priority: 1
+    enabled: true
 
   - name: sqlexample2
     source: sqlexample2.db
     dest: sqlexample2.db.bak
     options: ''
-    priority: 1
+    enabled: true
+
+  - name: disabledsqlexample1
+    source: disabled.db
+    dest: disabled.db.bak
+    options: ''
 
 rsync:
   - name: example1
@@ -17,11 +24,14 @@ rsync:
     dest: example1Dest
     ignored: '*ignored*'
     options: ''
-    priority: 2
+    enabled: true
 
   - name: example2
     source: example2Source
     dest: example2Dest
     ignored: '*media*'
     options: option1
-    priority: 2
+    enabled: true
+  
+test:
+  - name: test

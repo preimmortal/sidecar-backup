@@ -1,24 +1,34 @@
 package main
 
 import (
+	"flag"
+
 	log "github.com/sirupsen/logrus"
-	yaml "gopkg.in/yaml.v2"
 )
-type Person struct {
-	Name string `yaml:"name"`
-	Age int `yaml:"age"`
+
+var configFile = flag.String("config", "", "Config File Location")
+var workers = flag.Int("workers", 5, "Number of Workers to Spawn")
+var debug = flag.Bool("d", false, "Debug Flag")
+
+func configureLog() {
+	if *debug {
+		log.SetLevel(log.DebugLevel)
+	}
 }
+
+func parseArgs() {
+	flag.Parse()
+	log.Debug("sidecar-backup")
+	log.Debug("  --config ", *configFile)
+	log.Debug("  --workers ", *workers)
+	log.Debug("  -d ", *debug)
+}
+
 // Main function
 func main() {
   log.Info("Starting Sidecar-Backup")
-	var y []byte
-	var err error
-	p := &Person{
-		"abc",
-		3,
-	}
-	if y, err = yaml.Marshal(p); err != nil {
-		log.Error(err)
-	} 
-	log.Info(string(y))
+	parseArgs()
+	configureLog()
+	readConfig(*configFile)
+	scheduleJobs()
 }
