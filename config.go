@@ -10,22 +10,22 @@ import (
 var config Config
 
 type Config struct {
-	Enabled string `yaml:"enabled"`
+	Enable string `yaml:"enable"`
 	Rsync []Rsync `yaml:"rsync"`
 	Sql []Sql `yaml:"sql"`
 }
 
-func readConfig(filename string) error {
+func ReadConfig(filename string) error {
 	log.Info("Reading Configuration")
 	var configFile []byte
 	var err error
 	if configFile, err = ioutil.ReadFile(filename); err != nil{
-		log.Error(err)
+		log.Errorf("Unable to read file: '%v'", filename)
 		return err
 	}
 
 	if err = yaml.Unmarshal(configFile, &config); err != nil {
-		log.Error(err)
+		log.Errorf("Unable to unmarshal YAML file: '%v'", filename)
 		return err
 	}
 

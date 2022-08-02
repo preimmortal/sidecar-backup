@@ -2,9 +2,13 @@ package main
 
 import (
 	"flag"
+	"os"
 
 	log "github.com/sirupsen/logrus"
 )
+
+const ErrorExit = 1
+const SuccessExit = 0
 
 var configFile = flag.String("config", "", "Config File Location")
 var workers = flag.Int("workers", 5, "Number of Workers to Spawn")
@@ -29,6 +33,10 @@ func main() {
   log.Info("Starting Sidecar-Backup")
 	parseArgs()
 	configureLog()
-	readConfig(*configFile)
+	if err := ReadConfig(*configFile); err != nil {
+		log.Error(err)
+		os.Exit(ErrorExit)
+	}
 	scheduleJobs()
+	os.Exit(SuccessExit)
 }

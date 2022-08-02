@@ -9,9 +9,8 @@ import (
 )
 
 type Job interface {
-	enabled() bool
-	info() ([]byte, error)
-	execute() error
+	Enabled() bool
+	Execute() error
 }
 
 var scheduleWG sync.WaitGroup
@@ -19,7 +18,7 @@ var jobChan = make(chan Job, 100)
 
 func worker(jobs <- chan Job) {
 	for job := range jobs {
-		if err := job.execute(); err != nil {
+		if err := job.Execute(); err != nil {
 			log.Error(err)
 		}
 		scheduleWG.Done()
@@ -53,7 +52,7 @@ func executeJobs(v interface{}) error {
 			return fmt.Errorf("unable to interface job struct")
 		}
 
-		if job.enabled() {
+		if job.Enabled() {
 			log.Debug("    ", job)
 			scheduleWG.Add(1)
 			jobChan <- job

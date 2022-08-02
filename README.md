@@ -5,3 +5,8 @@ A backup tool meant to be used as a sidecar container
 ```
 go run *.go --config="example/config.yaml"  --workers=3 -d
 ```
+
+# Test with Coverage
+```
+go test ./... -coverprofile=coverage.out
+```

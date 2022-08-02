@@ -26,10 +26,17 @@ func Test_readConfig(t *testing.T) {
 			},
 			wantErr: true,
 		},
+		{
+			name: "Test No File",
+			args: args{
+				filename: "test/dne.config.yaml",
+			},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := readConfig(tt.args.filename); (err != nil) != tt.wantErr {
+			if err := ReadConfig(tt.args.filename); (err != nil) != tt.wantErr {
 				t.Errorf("readConfig() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
