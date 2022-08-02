@@ -11,5 +11,9 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 
+# Example files
+example/dest
+example/src
+
 # Dependency directories (remove the comment below to include it)
 # vendor/

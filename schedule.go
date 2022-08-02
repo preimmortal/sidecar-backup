@@ -9,6 +9,7 @@ import (
 )
 
 type Job interface {
+	GetName() string
 	Enabled() bool
 	Execute() error
 }
@@ -19,6 +20,7 @@ var jobChan = make(chan Job, 100)
 func worker(jobs <- chan Job) {
 	for job := range jobs {
 		if err := job.Execute(); err != nil {
+			log.Error("Job Failed: ", job.GetName())
 			log.Error(err)
 		}
 		scheduleWG.Done()

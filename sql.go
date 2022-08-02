@@ -15,11 +15,15 @@ type Sql struct {
 	Error error
 }
 
+func (job Sql) GetName() string {
+	return job.Name
+}
+
 func (job Sql) Enabled() bool {
 	return job.Enable
 }
 
-func (j Sql) Execute() error {
-	log.Info("    Executing SQL Job: ", j.Name)
+func (job Sql) Execute() error {
+	log.Info("    Executing SQL Job: ", job.Name)
 	return nil
 }

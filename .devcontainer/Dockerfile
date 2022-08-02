@@ -5,7 +5,7 @@ FROM golang:1.18.4-alpine3.16
 WORKDIR /app
 
 # Install Base Packages
-RUN apk add gcc musl-dev git openssh curl zsh
+RUN apk add gcc musl-dev git openssh curl zsh rsync
 
 # Change Shell
 RUN sed -i 's#^root.*#root:x:0:0:root:/root:/bin/zsh#' /etc/passwd
