@@ -37,6 +37,9 @@ func main() {
 		log.Error(err)
 		os.Exit(ErrorExit)
 	}
-	scheduleJobs()
+	if err := scheduleJobs(); err != nil {
+		log.Error(err)
+		os.Exit(ErrorExit)
+	}
 	os.Exit(SuccessExit)
 }

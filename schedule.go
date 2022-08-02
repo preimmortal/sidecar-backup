@@ -65,21 +65,28 @@ func executeJobs(v interface{}) error {
 	return nil
 }
 
-func executeAllJobs() {
+func executeAllJobs() error {
 	log.Info("Executing Jobs")
 
 	log.Info("  Executing SQL Jobs")
 	if err := executeJobs(config.Sql); err != nil {
 		log.Error(err)
+		return err
 	}
 
 	log.Info("  Executing Rsync Jobs")
 	if err := executeJobs(config.Rsync); err != nil {
 		log.Error(err)
+		return err
 	}
+	return nil
 }
 
-func scheduleJobs() {
+func scheduleJobs() error {
+	defer close(jobChan)
 	startWorkers()
-	executeAllJobs()
+	if err := executeAllJobs(); err != nil {
+		return err
+	}
+	return nil
 }
