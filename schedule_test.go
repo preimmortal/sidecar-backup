@@ -1,4 +1,4 @@
-package main
+package sidecarbackup
 
 // Need Mocking to test this
 /*

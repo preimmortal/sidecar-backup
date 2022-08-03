@@ -4,6 +4,7 @@ import (
 	"flag"
 	"os"
 
+	sb "github.com/preimmortal/sidecar-backup"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -33,11 +34,17 @@ func main() {
   log.Info("Starting Sidecar-Backup")
 	parseArgs()
 	configureLog()
-	if err := ReadConfig(*configFile); err != nil {
+
+	if err := sb.ReadConfig(*configFile); err != nil {
 		log.Error(err)
 		os.Exit(ErrorExit)
 	}
-	if err := scheduleJobs(); err != nil {
+
+	scheduler := sb.Scheduler{
+		Workers: *workers,
+	}
+
+	if err := scheduler.Start(); err != nil {
 		log.Error(err)
 		os.Exit(ErrorExit)
 	}

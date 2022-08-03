@@ -1,4 +1,4 @@
-package main
+package sidecarbackup
 
 import (
 	"fmt"
@@ -14,6 +14,10 @@ type Job interface {
 	Execute() error
 }
 
+type Scheduler struct {
+	Workers int
+}
+
 var scheduleWG sync.WaitGroup
 var jobChan = make(chan Job, 100)
 
@@ -27,15 +31,15 @@ func worker(jobs <- chan Job) {
 	}
 }
 
-func startWorkers() {
+func (s *Scheduler) startWorkers() {
 	log.Info("Starting Workers")
-	for w := 0; w < *workers; w++ {
+	for w := 0; w < s.Workers; w++ {
 		log.Debug("  Started Worker ", w)
 		go worker(jobChan)
 	}
 }
 
-func executeJobs(v interface{}) error {
+func (s *Scheduler) executeJobs(v interface{}) error {
 	refJobs := reflect.ValueOf(v)
 	if refJobs.Kind() != reflect.Slice {
 		return fmt.Errorf("invalid execute jobs array type")
@@ -68,27 +72,27 @@ func executeJobs(v interface{}) error {
 	return nil
 }
 
-func executeAllJobs() error {
+func (s *Scheduler) executeAllJobs() error {
 	log.Info("Executing Jobs")
 
 	log.Info("  Executing SQL Jobs")
-	if err := executeJobs(config.Sql); err != nil {
+	if err := s.executeJobs(config.Sql); err != nil {
 		log.Error(err)
 		return err
 	}
 
 	log.Info("  Executing Rsync Jobs")
-	if err := executeJobs(config.Rsync); err != nil {
+	if err := s.executeJobs(config.Rsync); err != nil {
 		log.Error(err)
 		return err
 	}
 	return nil
 }
 
-func scheduleJobs() error {
+func (s *Scheduler) Start() error {
 	defer close(jobChan)
-	startWorkers()
-	if err := executeAllJobs(); err != nil {
+	s.startWorkers()
+	if err := s.executeAllJobs(); err != nil {
 		return err
 	}
 	return nil

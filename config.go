@@ -1,4 +1,4 @@
-package main
+package sidecarbackup
 
 import (
 	"io/ioutil"
