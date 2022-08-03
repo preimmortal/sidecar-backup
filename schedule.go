@@ -94,7 +94,6 @@ func (s *Scheduler) executeAllJobs() error {
 func (s *Scheduler) Start(configFile string) {
 	for {
 		jobChan = make(chan Job, 100)
-		defer close(jobChan)
 
 		if err := ReadConfig(configFile); err != nil {
 			log.Error(err)
@@ -105,6 +104,8 @@ func (s *Scheduler) Start(configFile string) {
 		if err := s.executeAllJobs(); err != nil {
 			log.Error(err)
 		}
+
+		close(jobChan)
 
 		if config.Interval == 0 {
 			break
