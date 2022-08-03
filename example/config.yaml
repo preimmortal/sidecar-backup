@@ -10,14 +10,14 @@ sql:
     enable: true
 
   - name: example-sql-1
-    source: example/src/test.db
-    dest: example/src/test.backup.db
+    source: /source/test.db
+    dest: /source/test.backup.db
     enable: true
 
 rsync:
   - name: example-source-1
-    source: example/src/
-    dest: example/dest
+    source: /source/
+    dest: /dest
     options:
       exclude:
         - "*ignore*"
@@ -28,11 +28,11 @@ rsync:
     enable: true
 
   - name: example-dne-1
-    source: example/srcdne/
-    dest: example/destdne
+    source: /srcdne/
+    dest: /destdne
     enable: true
 
   - name: example-disabled-1
-    source: example/srcdne/
-    dest: example/destdne
+    source: /source/
+    dest: /dest
     enable: false
