@@ -1,6 +1,48 @@
 # Config File
 The config file is specified in [YAML][1] and consists of base options as well as rsync and sqlite3 options.
 
+## Example Configuration File
+```yaml
+enable: true
+interval: 0
+workers: 1
+verbose: false
+
+sql:
+  - name: example-sql-dne
+    source: example/src/dne.db
+    dest: example/src/dne.backup.db
+    enable: true
+
+  - name: example-sql-1
+    source: /source/test.db
+    dest: /source/test.backup.db
+    enable: true
+
+rsync:
+  - name: example-source-1
+    source: /source/
+    dest: /dest
+    options:
+      exclude:
+        - "*ignore*"
+      delete: true
+      deleteduring: true
+      deleteexcluded: true
+      force: true
+    enable: true
+
+  - name: example-dne-1
+    source: /srcdne/
+    dest: /destdne
+    enable: true
+
+  - name: example-disabled-1
+    source: /source/
+    dest: /dest
+    enable: false
+```
+
 ### Base
 ```
 enable    bool  false  enable sidecar-backup
@@ -119,47 +161,6 @@ sql:         []map
 ```
 * There are currently no options to be specified for sql
 
-## Example Configuration File
-```yaml
-enable: true
-interval: 0
-workers: 1
-verbose: false
-
-sql:
-  - name: example-sql-dne
-    source: example/src/dne.db
-    dest: example/src/dne.backup.db
-    enable: true
-
-  - name: example-sql-1
-    source: example/src/test.db
-    dest: example/src/test.backup.db
-    enable: true
-
-rsync:
-  - name: example-source-1
-    source: example/src/
-    dest: example/dest
-    options:
-      exclude:
-        - "*ignore*"
-      delete: true
-      deleteduring: true
-      deleteexcluded: true
-      force: true
-    enable: true
-
-  - name: example-dne-1
-    source: example/srcdne/
-    dest: example/destdne
-    enable: true
-
-  - name: example-disabled-1
-    source: example/srcdne/
-    dest: example/destdne
-    enable: false
-```
 
 [1]: https://yaml.org/spec/1.2.2/
 [2]: https://github.com/zloylos/grsync
