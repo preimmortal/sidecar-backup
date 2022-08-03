@@ -11,8 +11,11 @@ var config Config
 
 type Config struct {
 	Enable string `yaml:"enable"`
+	Workers int `yaml:"workers"`
 	Rsync []Rsync `yaml:"rsync"`
 	Sql []Sql `yaml:"sql"`
+	Verbose bool `yaml:"verbose"`
+	Debug bool `yaml:"debug"`
 }
 
 func ReadConfig(filename string) error {

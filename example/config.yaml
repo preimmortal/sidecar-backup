@@ -1,4 +1,6 @@
 enable: true
+workers: 2
+verbose: false
 
 sql:
   - name: example-sql-1
@@ -18,6 +20,7 @@ rsync:
       deleteexcluded: true
       force: true
     enable: true
+
   - name: example-disabled-1
     source: example/src/
     dest: example/dest

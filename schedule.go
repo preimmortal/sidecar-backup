@@ -17,6 +17,7 @@ type Job interface {
 type Scheduler struct {
 	Workers int
 	Verbose bool
+	Debug bool
 }
 
 var scheduleWG sync.WaitGroup
@@ -97,4 +98,12 @@ func (s *Scheduler) Start() error {
 		return err
 	}
 	return nil
+}
+
+func NewScheduler() *Scheduler {
+	return &Scheduler {
+		Workers: config.Workers,
+		Verbose: config.Verbose,
+		Debug: config.Debug,
+	}
 }
