@@ -73,9 +73,8 @@ docker-compose up
 
 # Detailed Resources
 
-## [Command Line Options][2]
-
-## [Configuration File][3]
+### [Command Line Options][2]
+### [Configuration File][3]
 
 [1]: https://kubernetes.io/docs/tasks/access-application-cluster/communicate-containers-same-pod-shared-volume/
 [2]: https://github.com/preimmortal/sidecar-backup/blob/main/README-cmdline.md
