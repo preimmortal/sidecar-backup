@@ -10,9 +10,6 @@ type Sql struct {
 	Dest string `yaml:"dest"`
 	Options string `yaml:"options"`
 	Enable bool `yaml:"enable"`
-
-	Result string 
-	Error error
 }
 
 func (job Sql) GetName() string {

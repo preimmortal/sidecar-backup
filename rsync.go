@@ -13,9 +13,6 @@ type Rsync struct {
 	Dest string `yaml:"dest"`
 	Options grsync.RsyncOptions `yaml:"options"`
 	Enable bool `yaml:"enable"`
-
-	Result string
-	Error error
 }
 
 func (job Rsync) GetName() string {
