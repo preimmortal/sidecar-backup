@@ -28,7 +28,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v3
       with:
-        images: preimmortal/sidecar-backup
+        images: ghcr.io/preimmortal/sidecar-backup
         tags: |
           type=ref,event=branch
           type=ref,event=pr
