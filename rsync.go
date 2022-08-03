@@ -24,20 +24,27 @@ func (job Rsync) Enabled() bool {
 }
 
 func (job Rsync) Execute(verbose bool) error {
-	log.Info("    Executing Rsync Job: ", job.Name)
+	log.Infof("    %v -- executing rsync job", job.Name)
+	var err error
+	var task *grsync.Task
 
-	log.Debugf("      %v -- Creating new Rsync Task", job.Name)
-	task := grsync.NewTask(
+	if !Exists(job.Source) {
+		log.Warnf("    %v -- source does not exist - %v", job.Name, job.Source)
+		return nil
+	}
+
+	log.Debugf("    %v -- creating new rsync task", job.Name)
+	task = grsync.NewTask(
 		job.Source,
 		job.Dest,
 		job.Options,
 	)
 
-	log.Debugf("      %v -- Keeping track of Rsync Task State", job.Name)
+	log.Debugf("    %v -- Keeping track of Rsync Task State", job.Name)
 	go func () {
 		state := task.State()
 		log.Infof(
-			"      %v -- progress: %.2f / rem. %d / tot. %d / sp. %s \n",
+			"    %v -- progress: %.2f / rem. %d / tot. %d / sp. %s \n",
 			job.Name,
 			state.Progress,
 			state.Remain,
@@ -47,10 +54,10 @@ func (job Rsync) Execute(verbose bool) error {
 		<- time.After(time.Second)
 	}()
 
-	log.Debugf("      %v -- Running Rsync Task", job.Name)
-	if err := task.Run(); err != nil {
-		log.Warnf("      %v -- %v", job.Name, task.Log().Stdout)
-		log.Warnf("      %v -- %v", job.Name, task.Log().Stderr)
+	log.Debugf("    %v -- Running Rsync Task", job.Name)
+	if err = task.Run(); err != nil {
+		log.Warnf("    %v -- %v", job.Name, task.Log().Stdout)
+		log.Warnf("    %v -- %v", job.Name, task.Log().Stderr)
 		return err
 	}
 
@@ -59,7 +66,7 @@ func (job Rsync) Execute(verbose bool) error {
 		log.Info(task.Log().Stderr)
 	}
 
-	log.Infof("      %v -- complete", job.Name)
+	log.Infof("    %v -- complete", job.Name)
 
 	return nil
 }

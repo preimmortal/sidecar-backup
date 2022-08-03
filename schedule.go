@@ -26,7 +26,7 @@ var jobChan = make(chan Job, 100)
 func (s *Scheduler) worker(jobs <- chan Job) {
 	for job := range jobs {
 		if err := job.Execute(s.Verbose); err != nil {
-			log.Errorf("      %v -- job failed: %v", job.GetName(), err)
+			log.Errorf("    %v -- job failed: %v", job.GetName(), err)
 		}
 		scheduleWG.Done()
 	}
@@ -60,7 +60,7 @@ func (s *Scheduler) executeJobs(v interface{}) error {
 		}
 
 		if !job.Enabled() {
-			log.Warn("    Task is defined but not enabled, skipping: ", job.GetName())
+			log.Warnf("    %v -- task is defined, but not enabled. skipping.", job.GetName())
 			continue
 		}
 

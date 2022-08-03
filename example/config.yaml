@@ -5,20 +5,15 @@ verbose: false
 sql:
   - name: example-sql-dne
     source: example/src/dne.db
-    dest: example/src/dne.db.sql
+    dest: example/src/dne.backup.db
     enable: true
 
   - name: example-sql-1
     source: example/src/test.db
-    dest: example/src/test.db.sql
+    dest: example/src/test.backup.db
     enable: true
 
 rsync:
-  - name: example-dne-1
-    source: example/srcdne/
-    dest: example/destdne
-    enable: true
-
   - name: example-source-1
     source: example/src/
     dest: example/dest
@@ -29,6 +24,11 @@ rsync:
       deleteduring: true
       deleteexcluded: true
       force: true
+    enable: true
+
+  - name: example-dne-1
+    source: example/srcdne/
+    dest: example/destdne
     enable: true
 
   - name: example-disabled-1

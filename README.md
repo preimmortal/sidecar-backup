@@ -3,7 +3,7 @@ A backup tool meant to be used as a sidecar container
 
 # Dev Run
 ```
-go run cmd/sidecar-backup/main.go --config="example/config.yaml"  --workers=1
+go run cmd/sidecar-backup/main.go --config="example/config.yaml"
 ```
 
 # Test with Coverage
