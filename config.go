@@ -11,6 +11,7 @@ var config Config
 
 type Config struct {
 	Enable string `yaml:"enable"`
+	Interval int `yaml:"interval"`
 	Workers int `yaml:"workers"`
 	Rsync []Rsync `yaml:"rsync"`
 	Sql []Sql `yaml:"sql"`

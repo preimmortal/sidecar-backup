@@ -54,16 +54,9 @@ func main() {
 
 	configureLog()
 
-	if err := sb.ReadConfig(*configFile); err != nil {
-		log.Error(err)
-		os.Exit(ErrorExit)
-	}
-
 	scheduler := sb.NewScheduler()
 
-	if err := scheduler.Start(); err != nil {
-		log.Error(err)
-		os.Exit(ErrorExit)
-	}
+	scheduler.Start(*configFile)
+
 	os.Exit(SuccessExit)
 }

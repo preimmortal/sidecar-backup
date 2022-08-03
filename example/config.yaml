@@ -1,4 +1,5 @@
 enable: true
+interval: 0
 workers: 2
 verbose: false
 
