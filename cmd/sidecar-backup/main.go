@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
 
 	sb "github.com/preimmortal/sidecar-backup"
@@ -20,17 +21,36 @@ func configureLog() {
 	}
 }
 
-func parseArgs() {
+func parseArgs() error {
+	var ok bool
 	flag.Parse()
 	log.Debug("sidecar-backup")
 	log.Debug("  --config ", *configFile)
 	log.Debug("  -d ", *debug)
+
+	if *configFile == "" {
+		*configFile, ok = os.LookupEnv("CONFIG")
+		if !ok {
+			return fmt.Errorf("could not detect configuration file, set using '--config' or 'CONFIG' env")
+		}
+	}
+
+	if !*debug {
+		var debugEnv string
+		debugEnv, _ = os.LookupEnv("DEBUG")
+		*debug = debugEnv == "true"
+	}
+
+	return nil
 }
 
 // Main function
 func main() {
   	log.Info("Starting Sidecar-Backup")
-	parseArgs()
+	if err := parseArgs(); err != nil {
+		log.Error(err)
+		os.Exit(ErrorExit)
+	}
 
 	configureLog()
 
