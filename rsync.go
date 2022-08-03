@@ -23,15 +23,17 @@ func (job Rsync) Enabled() bool {
 	return job.Enable
 }
 
-func (job Rsync) Execute() error {
+func (job Rsync) Execute(verbose bool) error {
 	log.Info("    Executing Rsync Job: ", job.Name)
 
+	log.Debugf("      %v -- Creating new Rsync Task", job.Name)
 	task := grsync.NewTask(
 		job.Source,
 		job.Dest,
 		job.Options,
 	)
 
+	log.Debugf("      %v -- Keeping track of Rsync Task State", job.Name)
 	go func () {
 		state := task.State()
 		log.Infof(
@@ -45,8 +47,14 @@ func (job Rsync) Execute() error {
 		<- time.After(time.Second)
 	}()
 
+	log.Debugf("      %v -- Running Rsync Task", job.Name)
 	if err := task.Run(); err != nil {
 		return err
+	}
+
+	if verbose {
+		log.Info(task.Log().Stdout)
+		log.Info(task.Log().Stderr)
 	}
 
 	log.Infof("      %v -- complete", job.Name)

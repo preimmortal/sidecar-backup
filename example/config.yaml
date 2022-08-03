@@ -1,6 +1,10 @@
 enable: true
 
 sql:
+  - name: example-sql-1
+    source: example/src/test.db
+    dest: example/src/test.db.sql
+    enable: true
 
 rsync:
   - name: example-source-1

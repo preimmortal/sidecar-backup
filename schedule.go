@@ -11,19 +11,20 @@ import (
 type Job interface {
 	GetName() string
 	Enabled() bool
-	Execute() error
+	Execute(verbose bool) error
 }
 
 type Scheduler struct {
 	Workers int
+	Verbose bool
 }
 
 var scheduleWG sync.WaitGroup
 var jobChan = make(chan Job, 100)
 
-func worker(jobs <- chan Job) {
+func (s *Scheduler) worker(jobs <- chan Job) {
 	for job := range jobs {
-		if err := job.Execute(); err != nil {
+		if err := job.Execute(s.Verbose); err != nil {
 			log.Error("Job Failed: ", job.GetName())
 			log.Error(err)
 		}
@@ -35,7 +36,7 @@ func (s *Scheduler) startWorkers() {
 	log.Info("Starting Workers")
 	for w := 0; w < s.Workers; w++ {
 		log.Debug("  Started Worker ", w)
-		go worker(jobChan)
+		go s.worker(jobChan)
 	}
 }
 

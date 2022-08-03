@@ -12,7 +12,8 @@ const ErrorExit = 1
 const SuccessExit = 0
 
 var configFile = flag.String("config", "", "Config File Location")
-var workers = flag.Int("workers", 5, "Number of Workers to Spawn")
+var workers = flag.Int("workers", 1, "Number of Workers to Spawn")
+var verbose = flag.Bool("v", false, "Verbose Flag")
 var debug = flag.Bool("d", false, "Debug Flag")
 
 func configureLog() {
@@ -26,6 +27,7 @@ func parseArgs() {
 	log.Debug("sidecar-backup")
 	log.Debug("  --config ", *configFile)
 	log.Debug("  --workers ", *workers)
+	log.Debug("  -v ", *verbose)
 	log.Debug("  -d ", *debug)
 }
 
@@ -42,6 +44,7 @@ func main() {
 
 	scheduler := sb.Scheduler{
 		Workers: *workers,
+		Verbose: *verbose,
 	}
 
 	if err := scheduler.Start(); err != nil {
