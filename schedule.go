@@ -26,8 +26,7 @@ var jobChan = make(chan Job, 100)
 func (s *Scheduler) worker(jobs <- chan Job) {
 	for job := range jobs {
 		if err := job.Execute(s.Verbose); err != nil {
-			log.Error("Job Failed: ", job.GetName())
-			log.Error(err)
+			log.Errorf("      %v -- job failed: %v", job.GetName(), err)
 		}
 		scheduleWG.Done()
 	}

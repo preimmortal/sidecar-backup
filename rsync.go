@@ -49,6 +49,8 @@ func (job Rsync) Execute(verbose bool) error {
 
 	log.Debugf("      %v -- Running Rsync Task", job.Name)
 	if err := task.Run(); err != nil {
+		log.Warnf("      %v -- %v", job.Name, task.Log().Stdout)
+		log.Warnf("      %v -- %v", job.Name, task.Log().Stderr)
 		return err
 	}
 

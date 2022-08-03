@@ -3,12 +3,22 @@ workers: 2
 verbose: false
 
 sql:
+  - name: example-sql-dne
+    source: example/src/dne.db
+    dest: example/src/dne.db.sql
+    enable: true
+
   - name: example-sql-1
     source: example/src/test.db
     dest: example/src/test.db.sql
     enable: true
 
 rsync:
+  - name: example-dne-1
+    source: example/srcdne/
+    dest: example/destdne
+    enable: true
+
   - name: example-source-1
     source: example/src/
     dest: example/dest
@@ -22,6 +32,6 @@ rsync:
     enable: true
 
   - name: example-disabled-1
-    source: example/src/
-    dest: example/dest
+    source: example/srcdne/
+    dest: example/destdne
     enable: false

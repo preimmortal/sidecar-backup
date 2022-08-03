@@ -32,6 +32,7 @@ func (job Sql) Execute(verbose bool) error {
 
 	log.Debugf("      %v -- Opening SQL Dest File", job.Name)
 	if destFile, err = os.OpenFile(job.Dest, os.O_CREATE|os.O_WRONLY, 0666); err != nil {
+		log.Warnf("      %v -- could not create dest file %v", job.Name, job.Dest)
 		return err
 	}
 	defer destFile.Close()
@@ -40,6 +41,7 @@ func (job Sql) Execute(verbose bool) error {
 
 	log.Infof("      %v -- parsing sqlite3 database: %v", job.Name, job.Source)
 	if err := sqd.Dump(job.Source, dest); err != nil {
+		log.Warnf("      %v -- could not dump sqlite file %v", job.Name, job.Source)
 		return err
 	}
 	dest.Flush()
