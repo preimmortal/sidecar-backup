@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"sync"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -14,27 +15,24 @@ type Job interface {
 	Execute(verbose bool) error
 }
 
-type Scheduler struct {
-	Workers int
-	Verbose bool
-	Debug bool
-}
+type Scheduler struct {}
 
 var scheduleWG sync.WaitGroup
-var jobChan = make(chan Job, 100)
+var jobChan chan Job
 
 func (s *Scheduler) worker(jobs <- chan Job) {
 	for job := range jobs {
-		if err := job.Execute(s.Verbose); err != nil {
+		if err := job.Execute(config.Verbose); err != nil {
 			log.Errorf("    %v -- job failed: %v", job.GetName(), err)
 		}
 		scheduleWG.Done()
 	}
+	log.Info("Stopping Worker")
 }
 
 func (s *Scheduler) startWorkers() {
 	log.Info("Starting Workers")
-	for w := 0; w < s.Workers; w++ {
+	for w := 0; w < config.Workers; w++ {
 		log.Debug("  Started Worker ", w)
 		go s.worker(jobChan)
 	}
@@ -87,22 +85,37 @@ func (s *Scheduler) executeAllJobs() error {
 		log.Error(err)
 		return err
 	}
+
+	log.Info("Done")
+
 	return nil
 }
 
-func (s *Scheduler) Start() error {
-	defer close(jobChan)
-	s.startWorkers()
-	if err := s.executeAllJobs(); err != nil {
-		return err
+func (s *Scheduler) Start(configFile string) {
+	for {
+		jobChan = make(chan Job, 100)
+
+		if err := ReadConfig(configFile); err != nil {
+			log.Error(err)
+		}
+
+		s.startWorkers()
+
+		if err := s.executeAllJobs(); err != nil {
+			log.Error(err)
+		}
+
+		close(jobChan)
+
+		if config.Interval == 0 {
+			break
+		}
+
+		time.Sleep(time.Duration(config.Interval) * time.Second)
 	}
-	return nil
 }
 
 func NewScheduler() *Scheduler {
 	return &Scheduler {
-		Workers: config.Workers,
-		Verbose: config.Verbose,
-		Debug: config.Debug,
 	}
 }

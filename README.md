@@ -4,6 +4,8 @@ A backup tool meant to be used as a sidecar container
 # Dev Run
 ```
 go run cmd/sidecar-backup/main.go --config="example/config.yaml"
+
+CONFIG=example/config.yaml go run cmd/sidecar-backup/main.go
 ```
 
 # Build

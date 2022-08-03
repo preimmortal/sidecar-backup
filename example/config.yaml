@@ -1,5 +1,6 @@
 enable: true
-workers: 2
+interval: 0
+workers: 1
 verbose: false
 
 sql:
