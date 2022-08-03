@@ -10,13 +10,25 @@ import (
 var config Config
 
 type Config struct {
-	Enable string `yaml:"enable"`
+	Enable bool `yaml:"enable"`
 	Interval int `yaml:"interval"`
 	Workers int `yaml:"workers"`
 	Rsync []Rsync `yaml:"rsync"`
 	Sql []Sql `yaml:"sql"`
 	Verbose bool `yaml:"verbose"`
 	Debug bool `yaml:"debug"`
+}
+
+func verifyConfig() {
+	if config.Interval < 0 {
+		log.Warn("Interval is set to a negative value, setting to 0")
+		config.Interval = 0
+	}
+
+	if config.Workers < 0 {
+		log.Warn("Workers is set < 1, setting to 1")
+		config.Workers = 1
+	}
 }
 
 func ReadConfig(filename string) error {
@@ -32,6 +44,8 @@ func ReadConfig(filename string) error {
 		log.Errorf("Unable to unmarshal YAML file: '%v'", filename)
 		return err
 	}
+
+	verifyConfig()
 
 	log.Debug("  ", config)
 	return nil
