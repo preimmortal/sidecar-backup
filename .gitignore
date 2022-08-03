@@ -15,5 +15,8 @@
 example/dest
 example/src
 
+# bin dir
+bin
+
 # Dependency directories (remove the comment below to include it)
 # vendor/
