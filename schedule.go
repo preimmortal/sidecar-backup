@@ -54,13 +54,14 @@ func executeJobs(v interface{}) error {
 			return fmt.Errorf("unable to interface job struct")
 		}
 
-		if job.Enabled() {
-			log.Debug("    ", job)
-			scheduleWG.Add(1)
-			jobChan <- job
-		} else {
-			log.Warn("    Task is defined but not enabled, skipping: ", job)
+		if !job.Enabled() {
+			log.Warn("    Task is defined but not enabled, skipping: ", job.GetName())
+			continue
 		}
+
+		log.Debug("    ", job)
+		scheduleWG.Add(1)
+		jobChan <- job
 	}
 
 	scheduleWG.Wait()

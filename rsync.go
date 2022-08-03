@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -29,9 +28,7 @@ func (job Rsync) Enabled() bool {
 
 func (job Rsync) Execute() error {
 	log.Info("    Executing Rsync Job: ", job.Name)
-	log.Info("      Options:")
-	opt, _ := json.Marshal(job.Options)
-	log.Info("        ", string(opt))
+
 	task := grsync.NewTask(
 		job.Source,
 		job.Dest,
@@ -41,7 +38,8 @@ func (job Rsync) Execute() error {
 	go func () {
 		state := task.State()
 		log.Infof(
-			"      progress: %.2f / rem. %d / tot. %d / sp. %s \n",
+			"      %v -- progress: %.2f / rem. %d / tot. %d / sp. %s \n",
+			job.Name,
 			state.Progress,
 			state.Remain,
 			state.Total,
@@ -54,14 +52,7 @@ func (job Rsync) Execute() error {
 		return err
 	}
 
-	state := task.State()
-	log.Infof(
-		"      progress: %.2f / rem. %d / tot. %d / sp. %s \n",
-		state.Progress,
-		state.Remain,
-		state.Total,
-		state.Speed,
-	)
+	log.Infof("      %v -- complete", job.Name)
 
 	return nil
 }
