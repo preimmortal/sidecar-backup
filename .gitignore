@@ -15,8 +15,9 @@
 example/dest
 example/src
 
-# bin dir
-bin
+# bin
+sidecar-backup
+
 
 # Dependency directories (remove the comment below to include it)
 # vendor/

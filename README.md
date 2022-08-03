@@ -8,7 +8,7 @@ go run cmd/sidecar-backup/main.go --config="example/config.yaml"
 
 # Build
 ```
-go build -o bin/sidecar-backup cmd/sidecar-backup/main.go
+go build -v -o . ./...
 ```
 
 # Test with Coverage
