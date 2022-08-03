@@ -36,8 +36,9 @@ func (job Sql) Execute(verbose bool) error {
 	}
 	defer destFile.Close()
 
-	log.Infof("      %v -- parsing sqlite3 database: %v", job.Name, job.Source)
 	dest := bufio.NewWriter(destFile)
+
+	log.Infof("      %v -- parsing sqlite3 database: %v", job.Name, job.Source)
 	if err := sqd.Dump(job.Source, dest); err != nil {
 		return err
 	}
