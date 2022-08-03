@@ -15,21 +15,21 @@ func Test_readConfig(t *testing.T) {
 		{
 			name: "Test Good File",
 			args: args{
-				filename: "test/good.config.yaml",
+				filename: "testdata/good.config.yaml",
 			},
 			wantErr: false,
 		},
 		{
 			name: "Test Bad File",
 			args: args{
-				filename: "test/bad.config.yaml",
+				filename: "testdata/bad.config.yaml",
 			},
 			wantErr: true,
 		},
 		{
 			name: "Test No File",
 			args: args{
-				filename: "test/dne.config.yaml",
+				filename: "testdata/dne.config.yaml",
 			},
 			wantErr: true,
 		},

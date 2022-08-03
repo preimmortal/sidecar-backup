@@ -1,0 +1,21 @@
+enable: true
+
+sql:
+
+rsync:
+  - name: example-source-1
+    source: example/src/
+    dest: example/dest
+    options:
+      exclude:
+        - "*ignore*"
+      delete: true
+      deleteduring: true
+      deleteexcluded: true
+      force: true
+    enable: true
+  - name: example-disabled-1
+    source: example/src/
+    dest: example/dest
+    options: "bad-input"
+    enable: false
