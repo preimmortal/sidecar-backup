@@ -26,8 +26,5 @@ else
     "${USER}"
 fi
 
-echo "Starting app"
-echo "su ${USER} -c /app/sidecar-backup $@"
-
-sleep 1000
+sleep 10000
 su ${USER} -c "/app/sidecar-backup $@"
