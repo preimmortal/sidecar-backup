@@ -29,4 +29,5 @@ fi
 echo "Starting app"
 echo "su ${USER} -c /app/sidecar-backup $@"
 
+sleep 1000
 su ${USER} -c "/app/sidecar-backup $@"
