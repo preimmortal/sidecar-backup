@@ -62,7 +62,7 @@ func (job Rsync) Execute(verbose bool) error {
 					state.Speed,
 				)
 			}
-			time.Sleep(1 * time.Second)
+			time.Sleep(10 * time.Second)
 		}
 	}(done)
 
