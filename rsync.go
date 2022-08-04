@@ -25,9 +25,12 @@ func (job Rsync) Enabled() bool {
 }
 
 func (job Rsync) Execute(verbose bool) error {
+
 	log.Infof("    %v -- executing rsync job", job.Name)
 	var err error
 	var task *grsync.Task
+	var done = make(chan bool)
+	defer close(done)
 
 	if !Exists(job.Source) {
 		log.Warnf("    %v -- source does not exist - %v", job.Name, job.Source)
@@ -42,24 +45,33 @@ func (job Rsync) Execute(verbose bool) error {
 	)
 
 	log.Debugf("    %v -- Keeping track of Rsync Task State", job.Name)
-	go func () {
-		state := task.State()
-		log.Infof(
-			"    %v -- progress: %.2f / rem. %d / tot. %d / sp. %s \n",
-			job.Name,
-			state.Progress,
-			state.Remain,
-			state.Total,
-			state.Speed,
-		)
-		<- time.After(time.Second)
-	}()
+
+	go func (done chan bool) {
+		for {
+			select {
+			case <- done:
+				return
+			default:
+				state := task.State()
+				log.Infof(
+					"    %v -- progress: %.2f / rem. %d / tot. %d / sp. %s \n",
+					job.Name,
+					state.Progress,
+					state.Remain,
+					state.Total,
+					state.Speed,
+				)
+			}
+			time.Sleep(1 * time.Second)
+		}
+	}(done)
 
 	log.Debugf("    %v -- Running Rsync Task", job.Name)
 	if err = task.Run(); err != nil {
 		log.Warnf("    %v -- %v", job.Name, task.Log().Stderr)
-		return err
 	}
+
+	done <- true
 
 	if verbose {
 		log.Info(task.Log().Stdout)
@@ -68,5 +80,5 @@ func (job Rsync) Execute(verbose bool) error {
 
 	log.Infof("    %v -- complete", job.Name)
 
-	return nil
+	return err
 }
