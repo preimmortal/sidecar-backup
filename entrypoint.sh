@@ -26,5 +26,4 @@ else
     "${USER}"
 fi
 
-sleep 10000
 su ${USER} -c "/app/sidecar-backup $@"
