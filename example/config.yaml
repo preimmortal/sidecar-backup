@@ -1,5 +1,5 @@
 enable: true
-interval: 3600
+interval: 0
 workers: 1
 verbose: false
 
