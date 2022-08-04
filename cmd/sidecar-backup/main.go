@@ -56,7 +56,9 @@ func main() {
 
 	scheduler := sb.NewScheduler()
 
-	scheduler.Start(*configFile)
+	if scheduler.Start(*configFile) {
+		os.Exit(ErrorExit)
+	}
 
 	os.Exit(SuccessExit)
 }

@@ -15,14 +15,20 @@ type Job interface {
 	Execute(verbose bool) error
 }
 
-type Scheduler struct {}
+type Scheduler struct {
+	Error bool
+}
 
 var scheduleWG sync.WaitGroup
+var scheduleLock sync.Mutex
 var jobChan chan Job
 
 func (s *Scheduler) worker(jobs <- chan Job) {
 	for job := range jobs {
 		if err := job.Execute(config.Verbose); err != nil {
+			scheduleLock.Lock()
+			s.Error = true
+			scheduleLock.Unlock()
 			log.Errorf("    %v -- job failed: %v", job.GetName(), err)
 		}
 		scheduleWG.Done()
@@ -91,7 +97,7 @@ func (s *Scheduler) executeAllJobs() error {
 	return nil
 }
 
-func (s *Scheduler) Start(configFile string) {
+func (s *Scheduler) Start(configFile string) bool {
 	for {
 		jobChan = make(chan Job, 100)
 
@@ -113,6 +119,7 @@ func (s *Scheduler) Start(configFile string) {
 
 		time.Sleep(time.Duration(config.Interval) * time.Second)
 	}
+	return s.Error
 }
 
 func NewScheduler() *Scheduler {
