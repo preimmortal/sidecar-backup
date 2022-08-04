@@ -2,7 +2,7 @@ FROM --platform=$BUILDPLATFORM golang:1.18.4-alpine3.16 AS build
 WORKDIR /src
 COPY . .
 ARG TARGETOS TARGETARCH
-RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build -v -o /bin/sidecar-backup ./...
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build -v -o . ./...
 
 FROM alpine:3.16
 
@@ -14,6 +14,6 @@ ENV PGID=0
 
 COPY entrypoint.sh /entrypoint.sh
 
-COPY --from=build /bin/sidecar-backup /usr/bin/sidecar-backup
+COPY --from=build /src/sidecar-backup /usr/bin/sidecar-backup
 
 ENTRYPOINT [ "/entrypoint.sh"]
