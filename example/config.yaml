@@ -19,6 +19,9 @@ rsync:
     source: /source/
     dest: /dest
     options:
+      noowner: true
+      nogroup: true
+      notimes: true
       exclude:
         - "*ignore*"
       delete: true

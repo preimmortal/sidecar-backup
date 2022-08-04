@@ -96,6 +96,7 @@ rsync-options        []map
 	devices          bool    --devices
 	specials         bool    --specials
 	times            bool    --times
+	notimes          bool    --no-times
 	omitdirtimes     bool    --omit-dir-times
 	super            bool    --super
 	fakesuper        bool    --fake-super
