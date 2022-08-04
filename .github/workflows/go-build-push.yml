@@ -21,15 +21,6 @@ jobs:
     - name: Test
       run: go test -v ./...
 
-    #- name: Build amd64
-    #  run: env GOOS=linux GOARCH=amd64 go build -v -o sidecar-backup.amd64 cmd/sidecar-backup/main.go
-
-    #- name: Build arm64
-    #  run: env GOOS=linux GOARCH=arm64 go build -v -o sidecar-backup.arm64 cmd/sidecar-backup/main.go
-
-    #- name: Build armv7
-    #  run: env GOOS=linux GOARCH=arm GOARM=7 go build -v -o sidecar-backup.armv7 cmd/sidecar-backup/main.go
-
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v3

@@ -3,8 +3,8 @@ package sidecarbackup
 import (
 	"time"
 
+	grsync "github.com/preimmortal/grsync"
 	log "github.com/sirupsen/logrus"
-	grsync "github.com/zloylos/grsync"
 )
 
 type Rsync struct {
