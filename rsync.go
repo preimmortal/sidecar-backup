@@ -1,6 +1,7 @@
 package sidecarbackup
 
 import (
+	"fmt"
 	"time"
 
 	grsync "github.com/preimmortal/grsync"
@@ -30,7 +31,7 @@ func (job Rsync) Execute(verbose bool) error {
 
 	if !Exists(job.Source) {
 		log.Warnf("    %v -- source does not exist - %v", job.Name, job.Source)
-		return nil
+		return fmt.Errorf("source does not exist")
 	}
 
 	log.Debugf("    %v -- creating new rsync task", job.Name)

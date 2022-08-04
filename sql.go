@@ -1,6 +1,7 @@
 package sidecarbackup
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"os/exec"
@@ -36,7 +37,7 @@ func (job Sql) Execute(verbose bool) error {
 
 	if !Exists(job.Source) {
 		log.Warnf("    %v -- source does not exist - %v", job.Name, job.Source)
-		return nil
+		return fmt.Errorf("source does not exist")
 	}
 
 	if err = os.Remove(job.Dest); err != nil {
