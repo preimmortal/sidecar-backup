@@ -6,8 +6,9 @@ RUN mkdir /app/
 
 ENV PUID=0
 ENV PGID=0
+ENV ARCH=$TARGETARCH
 
 COPY entrypoint.sh /
-COPY sidecar-backup /app/
+COPY sidecar-backup.${ARCH} /app/sidecar-backup
 
 ENTRYPOINT [ "/entrypoint.sh"]

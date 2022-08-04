@@ -19,7 +19,7 @@ example/dest
 example/src
 
 # bin
-sidecar-backup
+sidecar-backup*
 
 
 # Dependency directories (remove the comment below to include it)
