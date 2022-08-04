@@ -85,11 +85,14 @@ rsync-options        []map
 	keepdirlinks     bool    --keep-dir-links
 	hardlinks        bool    --hard-links
 	perms            bool    --perms
+	noperms          bool    --no-perms
 	executability    bool    --executability
 	acls             bool    --acls
 	xattrs           bool    --xattrs
 	owner            bool    --owner
+	noowner          bool    --no-owner
 	group            bool    --group
+	nogroup          bool    --no-group
 	devices          bool    --devices
 	specials         bool    --specials
 	times            bool    --times
