@@ -26,4 +26,4 @@ else
     "${USER}"
 fi
 
-su ${USER} -c "/app/sidecar-backup $@"
+su ${USER} -c "sidecar-backup $@"
