@@ -27,5 +27,6 @@ else
 fi
 
 echo "Starting app"
+echo "su ${USER} -c /app/sidecar-backup $@"
 
 su ${USER} -c "/app/sidecar-backup $@"
