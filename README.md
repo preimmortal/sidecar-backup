@@ -7,6 +7,70 @@ Sidecar-Backup is a backup tool meant to be used for syncing directories (remote
 
 # Getting Started
 
+## Kubernetes
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-config
+data:
+  config.yaml: |
+    enable: true
+    workers: 1
+    verbose: false
+    rsync:
+      - name: rsync-backup
+        source: /source/
+        dest: /dest
+        enable: true
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backup-pod
+spec:
+  initContainers:
+  - name: main-container
+    image: ubuntu
+    command: ["/bin/bash", "-c", "echo \"hello\" > /source/hello.txt"]
+    volumeMounts:
+    - name: sourcedir
+      mountPath: "/source"
+  containers:
+  - name: backup-container
+    image: ghcr.io/preimmortal/sidecar-backup:latest
+    env:
+      - name: PUID
+        value: "1000"
+      - name: PGID
+        value: "1000"
+      - name: CONFIG
+        value: "/config/config.yaml"
+    volumeMounts:
+      - name: config
+        mountPath: /config
+        readOnly: true
+      - name: sourcedir
+        mountPath: /source
+      - name: destdir
+        mountPath: /dest
+  volumes:
+  - name: sourcedir
+    emptyDir: {}
+  - name: destdir
+    nfs:
+      server: <nfs-server>
+      path: /path/to/dest
+  - name: config
+    configMap:
+      name: backup-config
+```
+
+Run the Kubernetes Pods
+
+```
+kubectl apply -f pod.yaml
+```
 
 ## Docker
 To get started with docker, pull the latest image and configure the container
@@ -68,9 +132,6 @@ Run the Docker-Compose File
 ```
 docker-compose up
 ```
-
-## Kubernetes Deployment
-* TODO
 
 
 # Detailed Resources
