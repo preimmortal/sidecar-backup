@@ -16,10 +16,7 @@ func mockUtilStatCommand(target string) (fs.FileInfo, error) {
 }
 
 func mockUtilIsNotExistCommand(err error) bool {
-	if err != nil {
-		return true
-	}
-	return false
+	return err != nil
 }
 
 func mockUtilRemoveCommand(target string) error {
