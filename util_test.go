@@ -4,9 +4,37 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"os/exec"
 	"strings"
 	"testing"
 )
+
+func mockExecCommand(command string, args ...string) *exec.Cmd {
+	cs := []string{"-test.run=CommandHelperProcess", "--", command}
+	cs = append(cs, args...)
+	cmd := exec.Command(os.Args[0], cs...)
+	cmd.Env = []string{"GO_WANT_HELPER_PROCESS=1"}
+	return cmd
+}
+
+func CommandHelperProcess(t *testing.T) {
+	if os.Getenv("GO_WANT_HELPER_PROCESS") != "1" {
+		return
+	}
+	os.Exit(0)
+}
+
+func mockExistsCommand(target string) bool {
+	return strings.Contains(target, "exist")
+}
+
+func mockRemoveCommand(target string) error {
+	if strings.Contains(target, "error") {
+		return nil
+	}
+	return fmt.Errorf("remove command error")
+}
+
 
 func mockUtilStatCommand(target string) (fs.FileInfo, error) {
 	if strings.Contains(target, "exist") {

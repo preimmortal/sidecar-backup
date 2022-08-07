@@ -10,14 +10,14 @@ sql:
     enable: true
 
   - name: example-sql-1
-    source: /source/test.db
-    dest: /source/test.backup.db
+    source: example/src/test.db
+    dest: example/src/test.backup.db
     enable: true
 
 rsync:
   - name: example-source-1
-    source: /source/
-    dest: /dest
+    source: example/src/
+    dest: example/dest
     options:
       noowner: true
       nogroup: true

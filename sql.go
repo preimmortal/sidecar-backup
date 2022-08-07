@@ -9,10 +9,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var execCommand = exec.Command
-var existsCommand = Exists
-var removeCommand = Remove
-
 type Sql struct {
 	Name string `yaml:"name"`
 	Source string `yaml:"source"`

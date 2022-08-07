@@ -13,6 +13,10 @@ CONFIG=example/config.yaml go run cmd/sidecar-backup/main.go
 go build -v -o . ./...
 ```
 
+# Create Mocks
+mockgen -source=rsync.go  > mocks/mock-rsync.go
+mockgen -source schedule.go > mocks/mock-schedule.go
+
 # Test with Coverage
 ```
 go test ./... -coverprofile=coverage.out
