@@ -43,7 +43,7 @@ func (job Rsync) runTask(verbose bool, task Task) error {
 			select {
 			case <- done:
 				return
-			case <- time.After(1 * time.Second):
+			case <- time.After(10 * time.Second):
 				state := task.State()
 				log.Infof(
 					"    %v -- progress: %.2f / rem. %d / tot. %d / sp. %s \n",
