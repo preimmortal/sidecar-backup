@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/preimmortal/sidecar-backup/branch/main/graph/badge.svg?token=63F6CP8ND0)](https://codecov.io/gh/preimmortal/sidecar-backup)
+
 # Sidecar-Backup
 
 Sidecar-Backup is a backup tool meant to be used for syncing directories (remote or local) and creating safe backups of sqlite3 databases. It is meant to run as a [sidecar container][1] in a Kubernetes Pod to handle backing up directories to remote targets and backing sqlite3 databases safely without locking.
