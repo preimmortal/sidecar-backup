@@ -234,7 +234,7 @@ func TestRsync_runTask(t *testing.T) {
 				m.EXPECT().
 					Run().
 					DoAndReturn(func() error {
-						time.Sleep(1010*time.Millisecond)
+						time.Sleep(10010*time.Millisecond)
 						return nil
 					}).
 					AnyTimes()
