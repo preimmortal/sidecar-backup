@@ -8,6 +8,12 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+type Task interface{
+	State() grsync.State
+	Run() error
+	Log() grsync.Log
+}
+
 type Rsync struct {
 	Name string `yaml:"name"`
 	Source string `yaml:"source"`
@@ -28,7 +34,7 @@ func (job Rsync) Execute(verbose bool) error {
 
 	log.Infof("    %v -- executing rsync job", job.Name)
 	var err error
-	var task *grsync.Task
+	var task Task
 	var done = make(chan bool)
 	defer close(done)
 
