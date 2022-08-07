@@ -20,6 +20,11 @@ jobs:
     - name: Test
       run: go test -coverprofile=cover.out
     
+    - name: Install all dependencies
+      run: |
+        go install github.com/AlekSi/gocov-xml@latest
+        go install github.com/axw/gocov/gocov@latest
+
     - name: Generate Coverage XML
       run: gocov convert cover.out | gocov-xml > coverage.xml
 
