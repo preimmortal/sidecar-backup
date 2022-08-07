@@ -10,25 +10,6 @@ import (
 	mocks "github.com/preimmortal/sidecar-backup/mocks"
 )
 
-func mockRsyncNewTask(t *testing.T) Task {
-	ctrl := gomock.NewController(t)
-	m := mocks.NewMockTask(ctrl)
-	m.EXPECT().
-		Run().
-		Return(nil)
-
-	m.EXPECT().
-		State().
-		Return(grsync.State{}).
-		AnyTimes()
-
-	m.EXPECT().
-		Log().
-		Return(grsync.Log{}).
-		AnyTimes()
-	return m
-}
-
 func TestRsync_GetName(t *testing.T) {
 	type fields struct {
 		Name    string
