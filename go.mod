@@ -9,6 +9,8 @@ require (
 )
 
 require (
+	github.com/AlekSi/gocov-xml v1.1.0 // indirect
+	github.com/axw/gocov v1.1.0 // indirect
 	github.com/golang/mock v1.6.0 // indirect
 	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect
 )

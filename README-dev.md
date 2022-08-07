@@ -19,7 +19,10 @@ mockgen -source schedule.go > mocks/mock-schedule.go
 
 # Test with Coverage
 ```
-go test ./... -coverprofile=coverage.out
+go test -v | go-junit-report > report.xml
+
+go test -coverprofile=cover.out
+gocov convert cover.out | gocov-xml > coverage.xml
 ```
 
 # Build Local Docker Container
