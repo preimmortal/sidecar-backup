@@ -1,0 +1,16 @@
+enable: true
+interval: -1
+workers: 1
+verbose: false
+
+sql:
+  - name: example-sql-1
+    source: testdata/src/test.db
+    dest: testdata/src/test.backup.db
+    enable: false
+
+rsync:
+  - name: example-source-1
+    source: testdata/src/
+    dest: testdata/dest
+    enable: false
