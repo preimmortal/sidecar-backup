@@ -1,8 +1,25 @@
 package sidecarbackup
 
-import "testing"
+import (
+	"testing"
+)
 
-func Test_readConfig(t *testing.T) {
+func Test_verifyConfig(t *testing.T) {
+	tests := []struct {
+		name string
+	}{
+		{
+			name: "config-verify-test",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			verifyConfig()
+		})
+	}
+}
+
+func Test_ReadConfig(t *testing.T) {
 	type args struct {
 		filename string
 	}
@@ -13,25 +30,39 @@ func Test_readConfig(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "Test Good File",
+			name: "config-test-good",
 			args: args{
 				filename: "testdata/good.config.yaml",
 			},
 			wantErr: false,
 		},
 		{
-			name: "Test Bad File",
+			name: "config-test-bad",
 			args: args{
 				filename: "testdata/bad.config.yaml",
 			},
 			wantErr: true,
 		},
 		{
-			name: "Test No File",
+			name: "config-test-no",
 			args: args{
 				filename: "testdata/dne.config.yaml",
 			},
 			wantErr: true,
+		},
+		{
+			name: "config-test-neg-interval",
+			args: args{
+				filename: "testdata/neg.interval.config.yaml",
+			},
+			wantErr: false,
+		},
+		{
+			name: "config-test-neg-worker",
+			args: args{
+				filename: "testdata/neg.workers.config.yaml",
+			},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {

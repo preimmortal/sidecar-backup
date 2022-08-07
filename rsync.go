@@ -8,6 +8,14 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+var rsyncNewTask = grsync.NewTask
+
+type Task interface{
+	State() grsync.State
+	Run() error
+	Log() grsync.Log
+}
+
 type Rsync struct {
 	Name string `yaml:"name"`
 	Source string `yaml:"source"`
@@ -24,26 +32,10 @@ func (job Rsync) Enabled() bool {
 	return job.Enable
 }
 
-func (job Rsync) Execute(verbose bool) error {
-
-	log.Infof("    %v -- executing rsync job", job.Name)
+func (job Rsync) runTask(verbose bool, task Task) error {
 	var err error
-	var task *grsync.Task
 	var done = make(chan bool)
 	defer close(done)
-
-	if !Exists(job.Source) {
-		log.Warnf("    %v -- source does not exist - %v", job.Name, job.Source)
-		return fmt.Errorf("source does not exist")
-	}
-
-	log.Debugf("    %v -- creating new rsync task", job.Name)
-	task = grsync.NewTask(
-		job.Source,
-		job.Dest,
-		job.Options,
-	)
-
 	log.Debugf("    %v -- Keeping track of Rsync Task State", job.Name)
 
 	go func (done chan bool) {
@@ -51,7 +43,7 @@ func (job Rsync) Execute(verbose bool) error {
 			select {
 			case <- done:
 				return
-			default:
+			case <- time.After(1 * time.Second):
 				state := task.State()
 				log.Infof(
 					"    %v -- progress: %.2f / rem. %d / tot. %d / sp. %s \n",
@@ -62,7 +54,7 @@ func (job Rsync) Execute(verbose bool) error {
 					state.Speed,
 				)
 			}
-			time.Sleep(10 * time.Second)
+
 		}
 	}(done)
 
@@ -81,4 +73,28 @@ func (job Rsync) Execute(verbose bool) error {
 	log.Infof("    %v -- complete", job.Name)
 
 	return err
+
+}
+
+func (job Rsync) Execute(verbose bool) error {
+	log.Infof("    %v -- executing rsync job", job.Name)
+	var task Task
+
+	if !existsCommand(job.Source) {
+		log.Warnf("    %v -- source does not exist - %v", job.Name, job.Source)
+		return fmt.Errorf("source does not exist")
+	}
+
+	log.Debugf("    %v -- creating new rsync task", job.Name)
+	task = rsyncNewTask(
+		job.Source,
+		job.Dest,
+		job.Options,
+	)
+
+	if !job.Enable {
+		return nil
+	}
+
+	return job.runTask(verbose, task)
 }

@@ -18,6 +18,9 @@
 example/dest
 example/src
 
+# Test Data
+testdata/dest/*
+
 # bin
 sidecar-backup*
 

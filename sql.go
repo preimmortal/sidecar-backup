@@ -3,7 +3,6 @@ package sidecarbackup
 import (
 	"fmt"
 	"io"
-	"os"
 	"os/exec"
 	"sync"
 
@@ -35,32 +34,36 @@ func (job Sql) Execute(verbose bool) error {
 	var destCmd *exec.Cmd
 	var wg sync.WaitGroup
 
-	if !Exists(job.Source) {
+
+	if !existsCommand(job.Source) {
 		log.Warnf("    %v -- source does not exist - %v", job.Name, job.Source)
 		return fmt.Errorf("source does not exist")
 	}
 
-	if err = os.Remove(job.Dest); err != nil {
+	if err = removeCommand(job.Dest); err != nil {
 		log.Infof("    %v -- error removing dest file %v - %v", job.Name, job.Dest, err)
 	}
 
 	log.Infof("    %v -- starting dump from %v to %v", job.Name, job.Source, job.Dest)
-	srcCmd = exec.Command("sqlite3", job.Source, ".dump")
+	srcCmd = execCommand("sqlite3", job.Source, ".dump")
 	if srcCmdReader, err = srcCmd.StdoutPipe(); err != nil {
 		log.Errorf("    %v -- could not read stdout pipe - %v", job.Name, err)
+		return err
 	}
 
-	destCmd = exec.Command("sqlite3", job.Dest)
+	destCmd = execCommand("sqlite3", job.Dest)
 	destCmd.Stdin = srcCmdReader
 
 	wg.Add(1)
 	if err = destCmd.Start(); err != nil {
 		log.Errorf("    %v -- could not start the dest command - %v", job.Name, err)
+		return err
 	}
 
 	wg.Add(1)
 	if err = srcCmd.Start(); err != nil {
 		log.Errorf("    %v -- could not start the src command - %v", job.Name, err)
+		return err
 	}
 
 	go func() {
