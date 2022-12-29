@@ -111,6 +111,8 @@ func (s *Scheduler) executeAllJobs() error {
 
 func (s *Scheduler) Start(configFile string) bool {
 	for {
+		time.Sleep(time.Duration(config.Interval) * time.Second)
+
 		jobChan = make(chan Job, 100)
 
 		if err := ReadConfig(configFile); err != nil {
@@ -128,8 +130,6 @@ func (s *Scheduler) Start(configFile string) bool {
 		if config.Interval == 0 {
 			break
 		}
-
-		time.Sleep(time.Duration(config.Interval) * time.Second)
 	}
 	return s.Error
 }
