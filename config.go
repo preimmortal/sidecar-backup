@@ -10,13 +10,15 @@ import (
 var config Config
 
 type Config struct {
-	Enable bool `yaml:"enable"`
-	Interval int `yaml:"interval"`
-	Workers int `yaml:"workers"`
-	Rsync []Rsync `yaml:"rsync"`
-	Sql []Sql `yaml:"sql"`
-	Verbose bool `yaml:"verbose"`
-	Debug bool `yaml:"debug"`
+	Enable   bool      `yaml:"enable"`
+	Interval int       `yaml:"interval"`
+	Workers  int       `yaml:"workers"`
+	Rsync    []Rsync   `yaml:"rsync"`
+	Sql      []Sql     `yaml:"sql"`
+	PreRun   []Command `yaml:"pre-run"`
+	PostRun  []Command `yaml:"post-run"`
+	Verbose  bool      `yaml:"verbose"`
+	Debug    bool      `yaml:"debug"`
 }
 
 func verifyConfig() {
@@ -35,7 +37,7 @@ func ReadConfig(filename string) error {
 	log.Info("Reading Configuration")
 	var configFile []byte
 	var err error
-	if configFile, err = ioutil.ReadFile(filename); err != nil{
+	if configFile, err = ioutil.ReadFile(filename); err != nil {
 		log.Errorf("Unable to read file: '%v'", filename)
 		return err
 	}

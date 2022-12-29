@@ -23,7 +23,7 @@ var scheduleWG sync.WaitGroup
 var scheduleLock sync.Mutex
 var jobChan chan Job
 
-func (s *Scheduler) worker(jobs <- chan Job) {
+func (s *Scheduler) worker(jobs <-chan Job) {
 	for job := range jobs {
 		if err := job.Execute(config.Verbose); err != nil {
 			scheduleLock.Lock()
@@ -80,6 +80,12 @@ func (s *Scheduler) executeJobs(v interface{}) error {
 func (s *Scheduler) executeAllJobs() error {
 	log.Info("Executing Jobs")
 
+	log.Info("  Executing Pre-Run Jobs")
+	if err := s.executeJobs(config.PreRun); err != nil {
+		log.Error(err)
+		return err
+	}
+
 	log.Info("  Executing SQL Jobs")
 	if err := s.executeJobs(config.Sql); err != nil {
 		log.Error(err)
@@ -88,6 +94,12 @@ func (s *Scheduler) executeAllJobs() error {
 
 	log.Info("  Executing Rsync Jobs")
 	if err := s.executeJobs(config.Rsync); err != nil {
+		log.Error(err)
+		return err
+	}
+
+	log.Info("  Executing Pre-Run Jobs")
+	if err := s.executeJobs(config.PostRun); err != nil {
 		log.Error(err)
 		return err
 	}
@@ -123,6 +135,5 @@ func (s *Scheduler) Start(configFile string) bool {
 }
 
 func NewScheduler() *Scheduler {
-	return &Scheduler {
-	}
+	return &Scheduler{}
 }

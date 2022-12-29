@@ -3,6 +3,11 @@ interval: 0
 workers: 1
 verbose: false
 
+pre-run:
+  - name: example-pre-command-1
+    command: touch /tmp/sidecar-pre-run
+    enable: true
+
 sql:
   - name: example-sql-1
     source: testdata/src/test.db
@@ -44,3 +49,8 @@ rsync:
     source: /source/
     dest: /dest
     enable: false
+
+post-run:
+  - name: example-post-command-1
+    command: touch /tmp/sidecar-post-run
+    enable: true
