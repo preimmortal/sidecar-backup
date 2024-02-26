@@ -110,6 +110,10 @@ func (s *Scheduler) executeAllJobs() error {
 }
 
 func (s *Scheduler) Start(configFile string) bool {
+	if err := ReadConfig(configFile); err != nil {
+		log.Error(err)
+	}
+
 	for {
 		time.Sleep(time.Duration(config.Interval) * time.Second)
 

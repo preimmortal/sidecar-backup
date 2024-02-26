@@ -1,0 +1,56 @@
+enable: true
+interval: 10
+workers: 1
+verbose: false
+
+pre-run:
+  - name: example-pre-command-1
+    command: touch /tmp/sidecar-pre-run
+    enable: true
+
+sql:
+  - name: example-sql-1
+    source: testdata/src/test.db
+    dest: testdata/src/test.backup.db
+    enable: true
+
+  - name: example-sql-dne
+    source: testdata/src/dne.db
+    dest: testdata/src/dne.backup.db
+    enable: true
+
+  - name: example-sql-disabled
+    source: testdata/src/dne.db
+    dest: testdata/src/dne.backup.db
+    enable: false
+
+rsync:
+  - name: example-source-1
+    source: testdata/src/
+    dest: testdata/dest
+    options:
+      noowner: true
+      nogroup: true
+      notimes: true
+      exclude:
+        - "*ignore*"
+      delete: true
+      deleteduring: true
+      deleteexcluded: true
+      force: true
+    enable: true
+
+  - name: example-dne-1
+    source: /srcdne/
+    dest: /destdne
+    enable: true
+
+  - name: example-disabled-1
+    source: /source/
+    dest: /dest
+    enable: false
+
+post-run:
+  - name: example-post-command-1
+    command: touch /tmp/sidecar-post-run
+    enable: true
