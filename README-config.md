@@ -7,6 +7,7 @@ enable: true
 interval: 0
 workers: 1
 verbose: false
+init-lock: ""
 
 sql:
   - name: example-sql-dne
