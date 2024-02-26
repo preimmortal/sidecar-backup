@@ -114,6 +114,13 @@ func (s *Scheduler) Start(configFile string) bool {
 		log.Error(err)
 	}
 
+	if config.InitLock != "" {
+		if Exists(config.InitLock) {
+			log.Infof("InitLock (%v) Exists, skipping sync", config.InitLock)
+			return s.Error
+		}
+	}
+
 	for {
 		time.Sleep(time.Duration(config.Interval) * time.Second)
 
@@ -132,6 +139,14 @@ func (s *Scheduler) Start(configFile string) bool {
 		close(jobChan)
 
 		if config.Interval == 0 {
+			if config.InitLock != "" {
+				log.Infof("Creating InitLock: %v", config.InitLock)
+				if !Exists(config.InitLock) {
+					if err := CreateFile(config.InitLock); err != nil {
+						log.Error(err)
+					}
+				}
+			}
 			break
 		}
 	}
