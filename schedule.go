@@ -109,7 +109,7 @@ func (s *Scheduler) executeAllJobs() error {
 	return nil
 }
 
-func (s *Scheduler) Start(configFile string) bool {
+func (s *Scheduler) Start(configFile string, force bool) bool {
 	if err := ReadConfig(configFile); err != nil {
 		log.Error(err)
 	}
@@ -122,7 +122,9 @@ func (s *Scheduler) Start(configFile string) bool {
 	}
 
 	for {
-		time.Sleep(time.Duration(config.Interval) * time.Second)
+    if !force {
+		  time.Sleep(time.Duration(config.Interval) * time.Second)
+    }
 
 		jobChan = make(chan Job, 100)
 
@@ -138,7 +140,7 @@ func (s *Scheduler) Start(configFile string) bool {
 
 		close(jobChan)
 
-		if config.Interval == 0 {
+		if config.Interval == 0 || force {
 			if config.InitLock != "" {
 				log.Infof("Creating InitLock: %v", config.InitLock)
 				if !Exists(config.InitLock) {

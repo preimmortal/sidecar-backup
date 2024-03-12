@@ -13,6 +13,7 @@ const ErrorExit = 1
 const SuccessExit = 0
 
 var configFile = flag.String("config", "", "Config File Location")
+var force = flag.Bool("f", false, "Force Run")
 var debug = flag.Bool("d", false, "Debug Flag")
 
 func configureLog() {
@@ -26,6 +27,7 @@ func parseArgs() error {
 	flag.Parse()
 	log.Debug("sidecar-backup")
 	log.Debug("  --config ", *configFile)
+	log.Debug("  -f ", *force)
 	log.Debug("  -d ", *debug)
 
 	if *configFile == "" {
@@ -56,7 +58,7 @@ func main() {
 
 	scheduler := sb.NewScheduler()
 
-	if scheduler.Start(*configFile) {
+	if scheduler.Start(*configFile, *force) {
 		os.Exit(ErrorExit)
 	}
 
