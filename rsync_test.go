@@ -168,51 +168,51 @@ func TestRsync_runTask(t *testing.T) {
 		task    Task
 	}
 	type modifiers struct {
-		runErr bool
+		runErr   bool
 		runDelay bool
 	}
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
+		name      string
+		fields    fields
+		args      args
 		modifiers modifiers
-		wantErr bool
+		wantErr   bool
 	}{
 		{
-			name: "rsync-runtask-test",
+			name:   "rsync-runtask-test",
 			fields: fields{},
 			args: args{
 				verbose: true,
-				task: nil,
+				task:    nil,
 			},
 			modifiers: modifiers{
-				runErr: false,
+				runErr:   false,
 				runDelay: true,
 			},
 			wantErr: false,
 		},
 		{
-			name: "rsync-runtask-test",
+			name:   "rsync-runtask-test",
 			fields: fields{},
 			args: args{
 				verbose: true,
-				task: nil,
+				task:    nil,
 			},
 			modifiers: modifiers{
-				runErr: false,
+				runErr:   false,
 				runDelay: false,
 			},
 			wantErr: false,
 		},
 		{
-			name: "rsync-runtask-test-2",
+			name:   "rsync-runtask-test-2",
 			fields: fields{},
 			args: args{
 				verbose: true,
-				task: nil,
+				task:    nil,
 			},
 			modifiers: modifiers{
-				runErr: true,
+				runErr:   true,
 				runDelay: false,
 			},
 			wantErr: true,
@@ -228,13 +228,13 @@ func TestRsync_runTask(t *testing.T) {
 				m.EXPECT().
 					Run().
 					Return(fmt.Errorf("run-error"))
-			} 
+			}
 
-			if (tt.modifiers.runDelay) {
+			if tt.modifiers.runDelay {
 				m.EXPECT().
 					Run().
 					DoAndReturn(func() error {
-						time.Sleep(10010*time.Millisecond)
+						time.Sleep(10010 * time.Millisecond)
 						return nil
 					}).
 					AnyTimes()
@@ -271,5 +271,3 @@ func TestRsync_runTask(t *testing.T) {
 		})
 	}
 }
-
-

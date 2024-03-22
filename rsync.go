@@ -10,18 +10,18 @@ import (
 
 var rsyncNewTask = grsync.NewTask
 
-type Task interface{
+type Task interface {
 	State() grsync.State
 	Run() error
 	Log() grsync.Log
 }
 
 type Rsync struct {
-	Name string `yaml:"name"`
-	Source string `yaml:"source"`
-	Dest string `yaml:"dest"`
+	Name    string              `yaml:"name"`
+	Source  string              `yaml:"source"`
+	Dest    string              `yaml:"dest"`
 	Options grsync.RsyncOptions `yaml:"options"`
-	Enable bool `yaml:"enable"`
+	Enable  bool                `yaml:"enable"`
 }
 
 func (job Rsync) GetName() string {
@@ -38,12 +38,12 @@ func (job Rsync) runTask(verbose bool, task Task) error {
 	defer close(done)
 	log.Debugf("    %v -- Keeping track of Rsync Task State", job.Name)
 
-	go func (done chan bool) {
+	go func(done chan bool) {
 		for {
 			select {
-			case <- done:
+			case <-done:
 				return
-			case <- time.After(10 * time.Second):
+			case <-time.After(10 * time.Second):
 				state := task.State()
 				log.Infof(
 					"    %v -- progress: %.2f / rem. %d / tot. %d / sp. %s \n",

@@ -122,9 +122,9 @@ func (s *Scheduler) Start(configFile string, force bool) bool {
 	}
 
 	for {
-    if !force {
-		  time.Sleep(time.Duration(config.Interval) * time.Second)
-    }
+		if !force {
+			time.Sleep(time.Duration(config.Interval) * time.Second)
+		}
 
 		jobChan = make(chan Job, 100)
 

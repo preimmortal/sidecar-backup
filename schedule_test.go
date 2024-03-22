@@ -30,7 +30,7 @@ func TestScheduler_Start(t *testing.T) {
 	}
 	type args struct {
 		configFile string
-		force bool
+		force      bool
 	}
 	tests := []struct {
 		name   string
@@ -45,7 +45,7 @@ func TestScheduler_Start(t *testing.T) {
 			},
 			args: args{
 				configFile: "testdata/good.config.yaml",
-				force: false,
+				force:      false,
 			},
 			want: true,
 		},
@@ -56,7 +56,7 @@ func TestScheduler_Start(t *testing.T) {
 			},
 			args: args{
 				configFile: "testdata/bad.config.yaml",
-				force: false,
+				force:      false,
 			},
 			want: true,
 		},

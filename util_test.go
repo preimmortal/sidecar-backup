@@ -35,7 +35,6 @@ func mockRemoveCommand(target string) error {
 	return fmt.Errorf("remove command error")
 }
 
-
 func mockUtilStatCommand(target string) (fs.FileInfo, error) {
 	if strings.Contains(target, "exist") {
 		return nil, nil
