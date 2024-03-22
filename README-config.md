@@ -7,24 +7,36 @@ enable: true
 interval: 0
 workers: 1
 verbose: false
-init-lock: ""
+
+pre-run:
+  - name: example-pre-command-1
+    command: touch /tmp/sidecar-pre-run
+    enable: true
 
 sql:
-  - name: example-sql-dne
-    source: example/src/dne.db
-    dest: example/src/dne.backup.db
+  - name: example-sql-1
+    source: testdata/src/test.db
+    dest: testdata/src/test.backup.db
     enable: true
 
-  - name: example-sql-1
-    source: /source/test.db
-    dest: /source/test.backup.db
+  - name: example-sql-dne
+    source: testdata/src/dne.db
+    dest: testdata/src/dne.backup.db
     enable: true
+
+  - name: example-sql-disabled
+    source: testdata/src/dne.db
+    dest: testdata/src/dne.backup.db
+    enable: false
 
 rsync:
   - name: example-source-1
-    source: /source/
-    dest: /dest
+    source: testdata/src/
+    dest: testdata/dest
     options:
+      noowner: true
+      nogroup: true
+      notimes: true
       exclude:
         - "*ignore*"
       delete: true
@@ -42,14 +54,22 @@ rsync:
     source: /source/
     dest: /dest
     enable: false
+
+post-run:
+  - name: example-post-command-1
+    command: touch /tmp/sidecar-post-run
+    enable: true
 ```
 
 ### Base
 ```
-enable    bool  false  enable sidecar-backup
-interval  int   0      backup interval in seconds
-workers   int   1      number of workers to run concurrently
-verbose   bool  false  set verbosity of tool
+enable     bool    false  enable sidecar-backup
+interval   int     0      backup interval in seconds
+workers    int     1      number of workers to run concurrently
+init-lock  string  ""     specify the path to a file that acts as a lock for backup. If the lock exists, no backup is made (this is useful for initializing disks once)
+pre-run    string  ""     command to run prior to backup
+post-run   string  ""     command to run after backup is complete
+verbose    bool    false  set increased verbosity
 ```
 
 ### Rsync

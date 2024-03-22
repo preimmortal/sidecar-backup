@@ -5,8 +5,9 @@ The command line parameters of sidecar-backup are very simple, requiring only a 
 ```
 Usage of sidecar-backup:
   --config  required  string  config file location 
-  -d        optional          debug flag
-  -h        optional          help flag
+  -d        optional          debug flag: sets log level to debug
+  -f        optional          force flag: forces immediate backup and exit
+  -h        optional          help flag: display help message
 ```
 
 **CLI Examples**
@@ -22,6 +23,7 @@ These command line options can also be specified using environment variables.
 Usage of sidecar-backup environment configuration:
 CONFIG  required  config file location
 DEBUG   optional  debug flag
+FORCE   optional  force flag
 ```
 **ENV Examples**
 ```bash
