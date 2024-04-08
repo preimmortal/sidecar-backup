@@ -25,7 +25,9 @@ if [ "${UID}" == "0" ]; then
       --ingroup "${USERGROUP}" \
       --uid "${PUID}" \
       "${USER}"
-    chown -R $USER .
+  fi
+  if [ -n "$CHOWNDIR" ]; then
+    chown -R $USER:$USERGROUP $CHOWNDIR
   fi
   su ${USER} -c "sidecar-backup $@"
 else
