@@ -25,7 +25,6 @@ if [ "${UID}" == "0" ]; then
       --ingroup "${USERGROUP}" \
       --uid "${PUID}" \
       "${USER}"
-    adduser backup wheel
   fi
   su ${USER} -c "sidecar-backup $@"
 else
