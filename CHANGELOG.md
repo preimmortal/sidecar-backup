@@ -1,3 +1,10 @@
+## [0.0.15](https://github.com/preimmortal/sidecar-backup/compare/v0.0.14...v0.0.15) (2025-05-23)
+
+
+### Bug Fixes
+
+* add new release workflow ([b4d5fd4](https://github.com/preimmortal/sidecar-backup/commit/b4d5fd46649eed6445fe4dff2a55bde4845ad241))
+
 ## [0.0.14](https://github.com/preimmortal/sidecar-backup/compare/v0.0.13...v0.0.14) (2025-05-23)
 
 
