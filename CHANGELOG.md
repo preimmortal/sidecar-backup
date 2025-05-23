@@ -1,3 +1,10 @@
+## [0.0.12](https://github.com/preimmortal/sidecar-backup/compare/v0.0.11...v0.0.12) (2025-05-23)
+
+
+### Bug Fixes
+
+* update tags for semantic release docker build ([ec6add6](https://github.com/preimmortal/sidecar-backup/commit/ec6add6de3398488e19f268c84c49884c76f522d))
+
 ## [0.0.11](https://github.com/preimmortal/sidecar-backup/compare/v0.0.10...v0.0.11) (2025-05-23)
 
 
