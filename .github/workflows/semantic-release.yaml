@@ -84,5 +84,5 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
           push: true
-          tags: ${{ steps.semantic.outputs.new_release_version }}
-          labels: ${{ steps.semantic.outputs.new_release_version }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.tags }}
