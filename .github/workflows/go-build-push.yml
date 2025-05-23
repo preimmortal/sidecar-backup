@@ -44,7 +44,7 @@ jobs:
         images: ghcr.io/preimmortal/sidecar-backup
     
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
+      uses: docker/setup-qemu-action@v3
       with:
         platforms: all
 
