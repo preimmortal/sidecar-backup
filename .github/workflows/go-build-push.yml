@@ -30,7 +30,7 @@ jobs:
       run: gocov convert cover.out | gocov-xml > coverage.xml
 
     - name: Coverage
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
       with:
         files: ./coverage.xml
         fail_ci_if_error: true
