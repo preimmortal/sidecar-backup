@@ -1,3 +1,10 @@
+## [0.0.14](https://github.com/preimmortal/sidecar-backup/compare/v0.0.13...v0.0.14) (2025-05-23)
+
+
+### Bug Fixes
+
+* allow persisting gha credentials ([e353f12](https://github.com/preimmortal/sidecar-backup/commit/e353f125da5463df644cd8fb8a40471a9cdc1a41))
+
 ## [0.0.13](https://github.com/preimmortal/sidecar-backup/compare/v0.0.12...v0.0.13) (2025-05-23)
 
 
