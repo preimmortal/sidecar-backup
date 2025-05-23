@@ -1,3 +1,10 @@
+## [0.0.16](https://github.com/preimmortal/sidecar-backup/compare/v0.0.15...v0.0.16) (2025-05-23)
+
+
+### Bug Fixes
+
+* add a PAT for semantic release ([247b995](https://github.com/preimmortal/sidecar-backup/commit/247b995497a1820b30ab5d829679d9fe2c5fdead))
+
 ## [0.0.15](https://github.com/preimmortal/sidecar-backup/compare/v0.0.14...v0.0.15) (2025-05-23)
 
 
