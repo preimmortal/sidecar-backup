@@ -4,7 +4,7 @@ COPY . .
 ARG TARGETOS TARGETARCH
 RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build -v -o . ./...
 
-FROM alpine:3.22
+FROM alpine:3.23
 
 RUN apk add --no-cache --virtual .run-deps bash rsync sqlite curl  && rm -rf /var/cache/apk/*
 RUN mkdir /app/
