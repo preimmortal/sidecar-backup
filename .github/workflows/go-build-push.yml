@@ -19,20 +19,15 @@ jobs:
         go-version: 1.25
 
     - name: Test
-      run: go test -coverprofile=cover.out
+      run: go test -coverprofile=cover.out ./...
     
-    - name: Install all dependencies
-      run: |
-        go install github.com/AlekSi/gocov-xml@latest
-        go install github.com/gocov/gocov@latest
-
     - name: Generate Coverage XML
-      run: gocov convert cover.out | gocov-xml > coverage.xml
+      run: go tool cover -func=cover.out -o coverage.out
 
     - name: Coverage
       uses: codecov/codecov-action@v5
       with:
-        files: ./coverage.xml
+        files: ./coverage.out
         fail_ci_if_error: true
         token: ${{ secrets.CODECOV_TOKEN }}
         verbose: true
