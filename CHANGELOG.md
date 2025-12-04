@@ -1,3 +1,10 @@
+# [0.1.0](https://github.com/preimmortal/sidecar-backup/compare/v0.0.16...v0.1.0) (2025-12-04)
+
+
+### Features
+
+* bump go version to 1.25 and fix ci ([dd7254c](https://github.com/preimmortal/sidecar-backup/commit/dd7254c7eadd8bd3ba9b92c4dee6e2fc2e37c902))
+
 ## [0.0.16](https://github.com/preimmortal/sidecar-backup/compare/v0.0.15...v0.0.16) (2025-05-23)
 
 
