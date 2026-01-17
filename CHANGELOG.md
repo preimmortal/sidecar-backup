@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/preimmortal/sidecar-backup/compare/v0.1.0...v0.1.1) (2026-01-17)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/sirupsen/logrus to v1.9.4 ([943bed6](https://github.com/preimmortal/sidecar-backup/commit/943bed6e90bb39425b3651448b01e5d703c34288))
+
 # [0.1.0](https://github.com/preimmortal/sidecar-backup/compare/v0.0.16...v0.1.0) (2025-12-04)
 
 
