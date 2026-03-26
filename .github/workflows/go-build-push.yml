@@ -25,7 +25,7 @@ jobs:
       run: go tool cover -func=cover.out -o coverage.out
 
     - name: Coverage
-      uses: codecov/codecov-action@v5
+      uses: codecov/codecov-action@v6
       with:
         files: ./coverage.out
         fail_ci_if_error: true
