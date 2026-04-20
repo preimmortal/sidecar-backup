@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/preimmortal/sidecar-backup/compare/v0.1.1...v0.2.0) (2026-04-20)
+
+
+### Features
+
+* bump go version to 1.26 ([08d22f4](https://github.com/preimmortal/sidecar-backup/commit/08d22f47d46c44207ea05a87e287a1b63b0e68a2))
+
 ## [0.1.1](https://github.com/preimmortal/sidecar-backup/compare/v0.1.0...v0.1.1) (2026-01-17)
 
 
