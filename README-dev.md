@@ -31,8 +31,4 @@ docker build -t preimmortal/sidecar-backup .
 ```
 
 # Create Tags/Release
-* version names always start with 'v' and are of the format 'vX.Y.Z`
-git tag -a "<version>" -m "<message>"
-git push origin <version>
-
-Create Release on the Github Release page
+Create a commit with semantic versioning
