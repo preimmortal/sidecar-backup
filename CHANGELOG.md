@@ -1,3 +1,10 @@
+## [0.2.2](https://github.com/preimmortal/sidecar-backup/compare/v0.2.1...v0.2.2) (2026-11-01)
+
+
+### Bug Fixes
+
+* semantic release plugins ([9d663d5](https://github.com/preimmortal/sidecar-backup/commit/9d663d5d26d71e7158b3b17d83111bbdad49cf9f))
+
 ## [0.2.1](https://github.com/preimmortal/sidecar-backup/compare/v0.2.0...v0.2.1) (2026-08-30)
 
 
